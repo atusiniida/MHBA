@@ -161,13 +161,16 @@ with open(outfile, mode='w') as f:
     for e in expId:
         out = []
         for m in mutId:
-            f2 = open(outdir + "/" + e + "_" + m + "/summary.tab")
-            for line in f2:
-                tmp = line.split("\t")
-                if tmp[0] == targetParm:
-                    out.append(tmp[1])
-                    f2.close()
-                    break
+            if os.path.isfile(outdir + "/" + e + "_" + m + "/summary.tab"):
+                f2 = open(outdir + "/" + e + "_" + m + "/summary.tab")
+                for line in f2:
+                    tmp = line.split("\t")
+                    if tmp[0] == targetParm:
+                        out.append(tmp[1])
+                        f2.close()
+                        break
+            else:
+                out.append("NA")
         f.write(e + "\t" + "\t".join(out) + "\n")
 
 rargs = [outdir + "/" + targetParm + ".tab", outdir + "/" + targetParm + ".pdf"]
